@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= pageName %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4"><%= pageName %> </h1>
+
+        <a href="/post/new" class="btn btn-success">New Post</a>
+
+        <% posts.forEach(x => { %>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title"><%= x.title %></h4>
+                    <div class="card-subtitle text-muted mb-2">
+                        <%= x.createdAt.toLocaleDateString() %> | By: <%= x.authorName %> 
+                    </div>
+                    <div class="card-text mb-2"><%= x.description %></div>
+                    <a href="post/<%= x.slug %>" class="btn btn-primary">Read More</a>
+                    <% if(user){ 
+                        if(user.id == x.authorId){
+                        %>
+                        <form action="/post/del/<%= x.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } }%>   
+                </div>
+            </div>
+        <% }) %> 
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        img.avatar {
+    min-height: 125px;
+    min-width: 125px;
+    max-height: 125px;
+    max-width: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.avatar {
+    background-color: #5085ca;
+    border: 4px solid #67a9ff;
+}
+.center {
+    margin: 0 auto;
+}
+
+figure .profileBadge {
+    user-select: none;
+    position: absolute;
+    left: 74%;
+    top: -6px;
+    /* height: 1em; */
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    padding: 4px 7px;
+    border-radius: 50%;
+    /* overflow: hidden; */
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 1;
+    border: 3px solid white;
+  }
+  .Team {
+    background-color: #67a9ff; /* #1dda8f */
+    color: white !important;
+  }
+
+  .Team:hover {
+    color: white !important; 
+    background: #67a9ffbb;     
+  }
+
+  /* 
+                <a class="profileBadge Team">
+                wezacon
+              </a>
+  */
+
+  img.WezaconTeam {
+    position: absolute;
+    left: 62.5px;
+    bottom: -4.5px;
+    /* height: 1em; */
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    height: 100%;
+    transition: 0.25s ease-in-out;
+  }
+
+  img.WezaconTeam:hover {
+    filter: opacity(80%);
+  }
+
+  @media screen and (max-width: 500px) {
+    .sectionB {
+        width: 85% !important;
+    }
+}
+.miniBadge {
+    font-size: 15px;
+    background-color: rgba(0, 0, 0, 0.144);
+    border: none;
+    padding: 7px;
+    border-radius: 50%;
+    text-decoration: none !important;
+}
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.username %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        
+        <section class="section no-background">
+            <div class="container has-text-centered">
+              <figure class="image is-128x128 center" style="position: relative;">
+                
+                  <img class="avatar" src="<%= user.imageUrl %>">
+                  
+                  <% if(user.role == "admin"){ %> 
+                    <a class="profileBadge Team">
+                      <i class="fas fa-tools"></i>
+                    </a>
+                  <% } %> 
+                  <% if(user.role == "mod"){ %> 
+                    <a class="profileBadge Team">
+                      <i class="fas fa-wrench"></i>
+                    </a>
+                  <% } %> 
+                 
+                </figure><br>
+              <h1 class="title is-2 inline" style="color: var(--font);"><%= user.username %> 
+                <i class="fas fa-check miniBadge" style="color: white; background: #1DA1F2;"></i>
+                
+                  <i class="fas fa-certificate miniBadge" style="color: white; background: #1DA1F2;"></i>
+                  
+                </h1>
+              <br><br>
+              <p>
+                <br>
+                
+                    
+              </p>
+            </div>
+          </section>
+
+    </div>
+
+    <div class="container">
+
+        <% userPosts.forEach(x => { %>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title"><%= x.title %></h4>
+                    <div class="card-subtitle text-muted mb-2">
+                        <%= x.createdAt.toLocaleDateString() %> | By: <%= x.authorName %> 
+                    </div>
+                    <div class="card-text mb-2"><%= x.description %></div>
+                    <a href="/post/<%= x.slug %>" class="btn btn-primary">Read More</a>
+                    <% if(user){ 
+                        if(user.id == x.authorId){
+                        %>
+                        <form action="/post/del/<%= x.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } }%>  
+                </div>
+            </div>
+        <% }) %> 
+
+    </div>
+</body>
+</html>
