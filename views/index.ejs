@@ -12,12 +12,17 @@
 
         <a href="/post/new" class="btn btn-success">New Post</a>
 
-        <% posts.forEach(x => { %>
+        <% 
+        if(posts.length > 0){
+        posts.forEach(x => { %>
             <div class="card mt-4">
                 <div class="card-body">
                     <h4 class="card-title"><%= x.title %></h4>
                     <div class="card-subtitle text-muted mb-2">
                         <%= x.createdAt.toLocaleDateString() %> | By: <%= x.authorName %> 
+                        <div>
+                            <%= x.likes.length %><% if(x.likes.length == 1){ %> like<% } else { %> likes<% } %>
+                        </div>
                     </div>
                     <div class="card-text mb-2"><%= x.description %></div>
                     <a href="post/<%= x.slug %>" class="btn btn-primary">Read More</a>
@@ -30,8 +35,16 @@
                     <% } }%>   
                 </div>
             </div>
-        <% }) %> 
+        <% })
+         } else { %>
 
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title">No posts found...</h4>
+                </div>
+            </div>
+
+        <% } %>
     </div>
 </body>
 </html>

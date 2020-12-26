@@ -30,6 +30,27 @@ router.post('/', checkAuth, async (req, res) =>{
     }
 })
 
+router.post('/:id/like', checkAuth, async (req, res) => {
+
+    const postm = await post.findOne({ id: req.params.id });
+    if(!postm) return res.redirect('/');
+
+    if(postm.likes.includes(req.user.id)){
+        var state = 'unlike';
+    } else {
+        var state = 'like';
+    }
+
+    if(state == 'like'){
+        const execute = await post.findOneAndUpdate({ id: req.params.id }, { $push: { likes: req.user.id } });
+        return res.redirect('/post/' + postm.slug)
+    } else {
+        const execute = await post.findOneAndUpdate({ id: req.params.id }, { $pull: { likes: req.user.id } });
+        return res.redirect('/post/' + postm.slug)
+    }
+
+});
+
 router.get('/new', checkAuth, (req, res) => {
     console.log('[INFO]', 'NEW POST PAGE ACCESS GRANTED')
     let data = {

@@ -35,6 +35,10 @@ const User = Schema({
     disabled: {
         type: Boolean,
         default: false
+    },
+    wezacon: {
+        type: Boolean,
+        default: false
     }
 });
 

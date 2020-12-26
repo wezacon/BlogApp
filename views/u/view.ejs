@@ -84,6 +84,29 @@ figure .profileBadge {
     border-radius: 50%;
     text-decoration: none !important;
 }
+figure .sprofileBadge {
+    user-select: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0px;
+    /* height: 1em; */
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    padding: 0 10px;
+    border-radius: 10px;
+    /* overflow: hidden; */
+    white-space: nowrap;
+    font-size: 1em;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+  .sTeam {
+    background-color: #67a9ff; /* #1dda8f */
+    color: white !important;
+  }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,13 +134,21 @@ figure .profileBadge {
                       <i class="fas fa-wrench"></i>
                     </a>
                   <% } %> 
-                 
+                 <% if(user.wezacon){ %>
+                
+                  <a class="sprofileBadge sTeam">
+                    WEZACON
+                  </a>
+                
+                <% } %>  
                 </figure><br>
               <h1 class="title is-2 inline" style="color: var(--font);"><%= user.username %> 
+                <% if(user.verified){ %> 
                 <i class="fas fa-check miniBadge" style="color: white; background: #1DA1F2;"></i>
-                
+                <% } %> 
+                <% if(user.supporter){ %> 
                   <i class="fas fa-certificate miniBadge" style="color: white; background: #1DA1F2;"></i>
-                  
+                  <% } %> 
                 </h1>
               <br><br>
               <p>
@@ -132,7 +163,9 @@ figure .profileBadge {
 
     <div class="container">
 
-        <% userPosts.forEach(x => { %>
+        <% 
+          if(userPosts.length > 0){
+          userPosts.forEach(x => { %>
             <div class="card mt-4">
                 <div class="card-body">
                     <h4 class="card-title"><%= x.title %></h4>
@@ -150,7 +183,17 @@ figure .profileBadge {
                     <% } }%>  
                 </div>
             </div>
-        <% }) %> 
+        <% }) 
+          } else {
+            %>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="card-title">No posts found...</h4>
+                </div>
+            </div>
+            <%
+          }
+          %> 
 
     </div>
 </body>
