@@ -11,6 +11,7 @@ const comment = Schema({
     },
     post: String,
     username: String,
+    userId: String,
     comment: String
 });
 

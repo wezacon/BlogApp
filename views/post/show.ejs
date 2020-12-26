@@ -78,7 +78,7 @@
                 <% } %>
             </form>
         <% } %>
-
+            <hr>
         <div>
             <%- post.html %>
         </div>
@@ -110,15 +110,23 @@
 
                         <div class="card m-4">
                           <div class="card-body">
-                            <h5 class="card-title">Comment by: <%= x.username %></h5>
+                            <h5 class="card-title">By: <a href="/u/<%= x.userId %>" target="_blank" style="text-decoration: none;"><%= x.username %></a>
+                              <% if(x.userId == post.authorId){ %><span class="badge bg-primary">Author</span><% } %>
+                              </h5>
                             <div class="card-text mb-2"><%= x.comment %></div>
                           </div>
                         </div>  
+
                       <% 
                       })
                     } else { %>
                       
-                      
+                      <div class="card m-4">
+                          <div class="card-body">
+                            <h5 class="card-title">No comments yet.</h5>
+                          </div>
+                        </div>  
+
                       <% } %>       
             </div>
 

@@ -39,7 +39,7 @@ router.post('/:id/c/new', checkAuth, async (req, res) => {
 
     if(!req.body.comment) return res.redirect('/');
 
-    const execute = new commentModel({ post: req.params.id, username: req.user.username, comment: req.body.comment });
+    const execute = new commentModel({ post: req.params.id, username: req.user.username, comment: req.body.comment, userId: req.user.id });
     await execute.save();
 
     return res.redirect(`/post/${postm.slug}`);
