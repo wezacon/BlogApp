@@ -84,5 +84,46 @@
         </div>
 
     </div>
+
+    <div class="container">
+      <div class="card mt-6">
+        <h2 class="card-title m-2" style="text-transform: uppercase;">Comments</h2> 
+        <div class="card-subtitle text-muted mb-4 m-2">
+            See what people think about this post!
+        <div>
+          <% if(user){ %>
+          <hr>
+          <form action="/post/<%= post.id %>/c/new" method="POST">
+            <div class="form-group">
+                <label for="comment">Comment Content</label>
+                <textarea required name="comment" id="comment" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+          </form>
+          <hr>
+          <% } %>
+          <div class="tab-content">
+
+                      <% if(comments.length > 0){ 
+                        comments.forEach(x => {
+                        %>
+
+                        <div class="card m-4">
+                          <div class="card-body">
+                            <h5 class="card-title">Comment by: <%= x.username %></h5>
+                            <div class="card-text mb-2"><%= x.comment %></div>
+                          </div>
+                        </div>  
+                      <% 
+                      })
+                    } else { %>
+                      
+                      
+                      <% } %>       
+            </div>
+
+
+      </div>
+    </div>
 </body>
 </html>

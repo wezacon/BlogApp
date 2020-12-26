@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const post = require('../models/post');
+const commentModel = require('../models/comment');
 router.get('/', (req, res) => {
     return res.redirect('/')
 })
@@ -29,6 +30,21 @@ router.post('/', checkAuth, async (req, res) =>{
         return res.render('post/new', { post: post });
     }
 })
+
+
+router.post('/:id/c/new', checkAuth, async (req, res) => {
+
+    const postm = await post.findOne({ id: req.params.id });
+    if(!postm) return res.redirect(`/`);
+
+    if(!req.body.comment) return res.redirect('/');
+
+    const execute = new commentModel({ post: req.params.id, username: req.user.username, comment: req.body.comment });
+    await execute.save();
+
+    return res.redirect(`/post/${postm.slug}`);
+});
+
 
 router.post('/:id/like', checkAuth, async (req, res) => {
 
@@ -101,9 +117,11 @@ router.post('/del/:id', checkAuth, async (req, res) => {
 router.get('/:slug', async (req, res) => {
     const postObject = await post.findOne({ slug: req.params.slug });
     if(postObject == null) return res.render('error.ejs', { msg: "Post not found!" })
+    const comments = await commentModel.find({ post: postObject.id }).sort({ $natural:-1 });
     let data = {
         user: req.user,
-        post: postObject
+        post: postObject,
+        comments
     }
     return res.render(`post/show.ejs`, data)
 })
